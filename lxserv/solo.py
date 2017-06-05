@@ -13,11 +13,7 @@ class solo_toggle(solo.CommanderClass):
     def commander_arguments(self):
         return [
             {
-                'name': 'mode',
-                'datatype': 'string',
-                'flags': ['optional']
-            }, {
-                'name': 'isActive',
+                'name': 'active',
                 'datatype': 'boolean',
                 'flags': ['query', 'optional']
             }
@@ -60,7 +56,7 @@ class solo_toggle(solo.CommanderClass):
 
 
     def commander_query(self,index):
-        if index == 1:
+        if index == 0:
             # The active argument is at index 1
             return self.checkState()
 
