@@ -21,19 +21,16 @@ class solo_toggle(solo.CommanderClass):
 
 
     def commander_execute(self, msg, flags):
+        if self.commander_arg_value(0) is not None:
+            solo_is_active = not self.commander_arg_value(0)
+        else:
+            solo_is_active = lx.eval('user.value solo_is_active ?')
 
-        # See if the user value exists
-        if lx.eval("query scriptsysservice userValue.isDefined ? solo") == 0:
-            lx.eval( 'user.defNew solo boolean' );
-            lx.eval( 'user.def solo username value:0' );
-
-        solo_is_active = lx.eval('user.value solo ?')
-
-        if solo_is_active == 0:
+        if not solo_is_active:
             try:
                 lx.eval('hide.unsel')
                 lx.eval('item.refSystem')
-                lx.eval('user.value solo 1')
+                lx.eval('user.value solo_is_active 1')
             except Exception:
                 lx.out(traceback.format_exc())
                 lx.eval('layout.createOrClose EventLog "Event Log_layout" title:@macros.layouts@EventLog@ width:600 height:600 persistent:true open:true')
@@ -42,26 +39,19 @@ class solo_toggle(solo.CommanderClass):
             try:
                 lx.eval('unhide')
                 lx.eval('item.refSystem {}')
-                lx.eval('user.value solo 0')
+                lx.eval('user.value solo_is_active 0')
             except Exception:
                 lx.eval('unhide')
                 lx.out(traceback.format_exc())
                 lx.eval('layout.createOrClose EventLog "Event Log_layout" title:@macros.layouts@EventLog@ width:600 height:600 persistent:true open:true')
 
-    def checkState(self):
-		if lx.eval("query scriptsysservice userValue.isDefined ? solo")==0:
-			lx.eval( 'user.defNew solo boolean' );
-			lx.eval( 'user.def solo username value:0' );
-		return int(lx.eval('user.value solo ?'))
-
 
     def commander_query(self,index):
         if index == 0:
-            # The active argument is at index 1
-            return self.checkState()
+            return lx.eval('user.value solo_is_active ?')
 
     def basic_Enable(self,msg):
-        if self.checkState():
+        if lx.eval('user.value solo_is_active ?'):
             return True
         elif modo.Scene().selected:
             return True
