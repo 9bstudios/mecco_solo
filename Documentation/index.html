@@ -10,10 +10,20 @@
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
-        <h1>Solo Documentation</h1>
+      <div class="videoWrapper">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/KyHRSbGCI3M" frameborder="0" allowfullscreen></iframe>
+    </div>
+        <div class="textContent">
+          <h1>Solo</h1>
 
-        <h2 id="About">About Solo</h2>
-        <p>Solo is a quick and dirty tool for cleaning up your viewport. Select an item, click Solo, and Be Happy.</p>
+          <p>Solo is a quick and dirty tool for cleaning up your viewport. Select an item, click Solo, and Be Happy.</p>
 
+          <p>Select one item and click solo to see only the selected item.</p>
+          <p>Select multiple items to see only those items, centered on the most recently selected of the group.</p>
+          <p>Switch between scenes with impunity! It just works.</p>
+          <p>Manually changing the reference center for the scene will update the Solo status accordingly: if there is an active reference center, Solo is considered to be enabled. If not, Solo is off.</p>
+          <p>There is currently no default hotkey for Solo. To add one, map <code>solo.toggle</code> to your hotkey of choice using the input editor.</p>
+          <div class="tip"><strong>Note:</strong> Solo state will not be saved between sessions. Closing a document and re-opening it resets Solo status.</div>
+        </div>
     </body>
 </html>
