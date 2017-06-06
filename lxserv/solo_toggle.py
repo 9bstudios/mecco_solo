@@ -26,10 +26,13 @@ class solo_toggle(solo.CommanderClass):
         restore_mode = solo.get_selection_mode()
         restore_sel = modo.Scene().selected
 
+        implicit_selection = solo.implicit_selection()
+
         # change to item mode, drop selection, and select implicit_selection()
         lx.eval('select.typeFrom item true')
         lx.eval('select.drop item')
-        for item in solo.implicit_selection():
+
+        for item in implicit_selection:
             item.select()
 
         # do the magic
@@ -41,7 +44,7 @@ class solo_toggle(solo.CommanderClass):
         if solo_is_active == False:
             try:
                 lx.eval('hide.unsel')
-                lx.eval('item.refSystem')
+                lx.eval('item.refSystem {%s}' % implicit_selection[-1].id)
                 lx.eval('user.value solo_is_active 1')
             except Exception:
                 lx.out(traceback.format_exc())
