@@ -8,17 +8,6 @@ import lxu.command
 import traceback
 import solo
 
-def get_mode():
-    """Returns the current selection mode as any of the following strings:
-    vertex;edge;polygon;item;pivot;center;ptag
-    """
-
-    modes = 'vertex;edge;polygon;item;pivot;center;ptag'
-    for mode in modes.split(';'):
-        if lx.eval('select.typeFrom %s;%s ?' % (mode, modes)):
-            return mode
-    return False
-
 class solo_toggle(solo.CommanderClass):
 
     def commander_arguments(self):
@@ -34,7 +23,7 @@ class solo_toggle(solo.CommanderClass):
     def commander_execute(self, msg, flags):
 
         # save current selection for later
-        restore_mode = get_mode()
+        restore_mode = solo.get_selection_mode()
         restore_sel = modo.Scene().selected
 
         # change to item mode, drop selection, and select implicit_selection()
@@ -90,7 +79,7 @@ class solo_toggle(solo.CommanderClass):
             return False
 
     def commander_notifiers(self):
-        return [("select.event", "item +ldt"), ("solo.notifier", "")]
+        return [("solo.notifier", "")]
 
 
 lx.bless(solo_toggle, "solo.toggle")
