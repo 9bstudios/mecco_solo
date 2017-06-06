@@ -49,7 +49,7 @@ class solo_toggle(solo.CommanderClass):
         else:
             solo_is_active = lx.eval('user.value solo_is_active ?')
 
-        if solo_is_active == 'false':
+        if solo_is_active == False:
             try:
                 lx.eval('hide.unsel')
                 lx.eval('item.refSystem')
