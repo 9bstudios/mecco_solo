@@ -23,6 +23,7 @@ def get_active_layers():
     lyr_svc = lx.service.Layer ()
     scan = lx.object.LayerScan (lyr_svc.ScanAllocate (lx.symbol.f_LAYERSCAN_ACTIVE))
     itemCount = scan.Count ()
+    items = []
     if itemCount > 0:
         items = [modo.Mesh( scan.MeshItem(i) ) for i in range(itemCount)]
     scan.Apply ()
