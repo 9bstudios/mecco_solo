@@ -28,13 +28,24 @@ class solo_toggle(solo.CommanderClass):
 
         implicit_selection = solo.implicit_selection()
 
+        if not implicit_selection:
+            try:
+                modo.dialogs.alert(
+                    lx.eval("query messageservice msgfind ? @mecco_solo_messages@NothingSelectedTitle@"),
+                    lx.eval("query messageservice msgfind ? @mecco_solo_messages@NothingSelectedMessage@")
+                    )
+            except:
+                pass
+
+            return
+
         # change to item mode, drop selection, and select implicit_selection()
         lx.eval('select.typeFrom item true')
         lx.eval('select.drop item')
 
         for item in implicit_selection:
             item.select()
-            
+
         sceneStatuses = solo.SceneStatuses()
 
         # do the magic

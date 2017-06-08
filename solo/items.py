@@ -7,7 +7,7 @@ def implicit_selection():
     to return active mesh layers. If there are no active mesh layers, returns
     an empty list."""
 
-    selected = modo.Scene().selected
+    selected = [i for i in modo.Scene().selected if i.isLocatorSuperType()]
     if selected:
         return selected
 
