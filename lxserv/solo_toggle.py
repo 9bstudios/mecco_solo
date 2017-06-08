@@ -28,6 +28,9 @@ class solo_toggle(solo.CommanderClass):
 
         implicit_selection = solo.implicit_selection()
 
+        # nothing is selected
+        # this is virtually impossible to hit, since the command is disabled
+        # if nothing is selected
         if not implicit_selection:
             try:
                 modo.dialogs.alert(
@@ -39,13 +42,6 @@ class solo_toggle(solo.CommanderClass):
 
             return
 
-        # change to item mode, drop selection, and select implicit_selection()
-        lx.eval('select.typeFrom item true')
-        lx.eval('select.drop item')
-
-        for item in implicit_selection:
-            item.select()
-
         sceneStatuses = solo.SceneStatuses()
 
         # do the magic
@@ -54,26 +50,52 @@ class solo_toggle(solo.CommanderClass):
         else:
             solo_is_active = sceneStatuses.current_scene_is_solo_active()
 
+        # hide components
+        if lx.eval('user.value solo_hide_components ?'):
+            if restore_mode in ('polygon', 'edge', 'vertex'):
+                if solo_is_active == False:
+                    lx.eval('hide.unsel')
+                else:
+                    lx.eval('unhide')
+
+        # change to item mode, drop selection, and select implicit_selection()
+        lx.eval('select.typeFrom item true')
+        lx.eval('select.drop item')
+
+        for item in implicit_selection:
+            item.select()
+
         if solo_is_active == False:
             try:
-                lx.eval('hide.unsel')
-                lx.eval('item.refSystem {%s}' % implicit_selection[-1].id)
+                if lx.eval('user.value solo_hide_items ?'):
+                    lx.eval('hide.unsel')
+
+                if lx.eval('user.value solo_set_reference_center ?'):
+                    lx.eval('item.refSystem {%s}' % implicit_selection[-1].id)
+
                 sceneStatuses.set_current_scene_active(True)
+
             except Exception:
                 lx.out(traceback.format_exc())
         else:
             try:
-                lx.eval('unhide')
-                lx.eval('item.refSystem {}')
+                if lx.eval('user.value solo_hide_items ?'):
+                    lx.eval('unhide')
+
+                if lx.eval('user.value solo_set_reference_center ?'):
+                    lx.eval('item.refSystem {}')
+
                 sceneStatuses.set_current_scene_active(False)
+
             except Exception:
-                lx.eval('unhide')
                 lx.out(traceback.format_exc())
 
         # restore selection
         lx.eval('select.drop item')
+
         for item in restore_sel:
             item.select()
+
         lx.eval('select.typeFrom %s true' % restore_mode)
 
         notifier = solo.Notifier()
