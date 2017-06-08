@@ -17,13 +17,21 @@
           <h1>Solo</h1>
 
           <p>Solo is a quick and dirty tool for cleaning up your viewport. Select an item, click Solo, and Be Happy.</p>
-
           <p>Select one item and click solo to see only the selected item.</p>
           <p>Select multiple items to see only those items, centered on the most recently selected of the group.</p>
           <p>Switch between scenes with impunity! It just works.</p>
-          <p>Manually changing the reference center for the scene will update the Solo status accordingly: if there is an active reference center, Solo is considered to be enabled. If not, Solo is off.</p>
-          <p>There is currently no default hotkey for Solo. To add one, map <code>solo.toggle</code> to your hotkey of choice using the input editor.</p>
           <div class="tip"><strong>Note:</strong> Solo state will not be saved between sessions. Closing a document and re-opening it resets Solo status.</div>
+          <p><strong>Preferences</strong> are available under <span class="click">Preferences > Mechanical Color > Solo</span>. From there you can map a custom Solo hotkey and configure the details of each Solo operation.</p>
+            <ul>
+              <li><strong>Map Solo to Key</strong> - A simple shortcut to map <code>solo.toggle</code> to the hotkey of your choosing.</li>
+
+              <li><strong>Hide Unselected Items</strong> - When enabled, unselected items will be hidden when Solo is enabled, and un-hidden when Solo is disabled. This is the default behavior.</li>
+
+              <li><strong>Hide Unselected Components</strong> - When enabled, unselected component geometry (i.e. polygons, edges, or vertices) will be hidden when Solo is enabled, and un-hidden when Solo is disabled. This is disabled by default.</li>
+
+              <li><strong>Set Reference Center</strong> - When enabled, the most recently selected item will be set as the MODO reference center when Solo is enabled, and reference center will be reset when Solo is disabled. This is the default behavior.</li>
+            </ul>
+          <div class="tip"><strong>Tip:</strong> To emulate Maya's "isolate selection" command, enable Hide Unselected Items and Hide Unselected Components, and disable Set Reference Center.</div>
         </div>
     </body>
 </html>
