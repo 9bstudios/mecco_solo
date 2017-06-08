@@ -11,17 +11,15 @@ class MySceneListener(lxifc.SceneItemListener):
     def __del__(self):
         self.lis_svc.RemoveListener(self.COM_object)
 
-    def notify(self):
-        solo.queue_idle_visitor(solo.solo_set_status)
-
     ''' Listener Method Overrides '''
     def sil_SceneCreate(self, scene):
-        self.notify()
+        pass
 
     def sil_SceneDestroy(self, scene):
-        self.notify()
+        sceneStatuses = solo.SceneStatuses()
+        sceneStatuses.handle_scene_delete(scene)
 
     def sil_SceneClear(self, scene):
-        self.notify()
+        pass
 
 MySceneListener()

@@ -1,24 +1,8 @@
 # python
 
-import lx
+import lx, lxu
 from Notifier import Notifier
 from MyOnIdleVisitor import MyOnIdleVisitor
-
-
-def solo_set_status(value = None):
-
-    if value is not None:
-        lx.eval('user.value solo_is_active %s' % int(value))
-
-    elif lx.eval('layer.setReference ?') == "":
-        lx.eval('user.value solo_is_active 0')
-
-    else:
-        lx.eval('user.value solo_is_active 1')
-
-    notifier = Notifier()
-    notifier.Notify(lx.symbol.fCMDNOTIFY_CHANGE_ALL)
-
 
 def queue_idle_visitor(todo_function, *args, **kwargs):
 
@@ -38,3 +22,31 @@ def get_selection_mode():
         if lx.eval('select.typeFrom %s;%s ?' % (mode, modes)):
             return mode
     return False
+    
+class Singleton(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class SceneStatuses(object):
+    __metaclass__ = Singleton
+    
+    def __init__(self):
+        self.active_scenes = set()
+    
+    def current_scene_is_solo_active(self):
+        scene = lx.object.Scene(lxu.select.SceneSelection().current())
+        return scene.__peekobj__() in self.active_scenes
+        
+    def set_current_scene_active(self, flag):
+        scene = lx.object.Scene(lxu.select.SceneSelection().current())
+        if flag:
+            self.active_scenes.add(scene.__peekobj__())
+        else:
+            self.active_scenes.remove(scene.__peekobj__())
+            
+    def handle_scene_delete(self, scene):
+        scene = lx.object.Scene(scene)
+        self.active_scenes.remove(scene.__peekobj__())

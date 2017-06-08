@@ -34,25 +34,27 @@ class solo_toggle(solo.CommanderClass):
 
         for item in implicit_selection:
             item.select()
+            
+        sceneStatuses = solo.SceneStatuses()
 
         # do the magic
         if self.commander_arg_value(0) is not None:
             solo_is_active = not self.commander_arg_value(0)
         else:
-            solo_is_active = lx.eval('user.value solo_is_active ?')
+            solo_is_active = sceneStatuses.current_scene_is_solo_active()
 
         if solo_is_active == False:
             try:
                 lx.eval('hide.unsel')
                 lx.eval('item.refSystem {%s}' % implicit_selection[-1].id)
-                lx.eval('user.value solo_is_active 1')
+                sceneStatuses.set_current_scene_active(True)
             except Exception:
                 lx.out(traceback.format_exc())
         else:
             try:
                 lx.eval('unhide')
                 lx.eval('item.refSystem {}')
-                lx.eval('user.value solo_is_active 0')
+                sceneStatuses.set_current_scene_active(False)
             except Exception:
                 lx.eval('unhide')
                 lx.out(traceback.format_exc())
@@ -67,14 +69,16 @@ class solo_toggle(solo.CommanderClass):
         notifier.Notify(lx.symbol.fCMDNOTIFY_DATATYPE)
 
     def commander_query(self,index):
+        sceneStatuses = solo.SceneStatuses()
         if index == 0:
-            if lx.eval('user.value solo_is_active ?') in ('true', 1, True):
+            if sceneStatuses.current_scene_is_solo_active():
                 return True
             else:
                 return False
 
     def basic_Enable(self,msg):
-        if lx.eval('user.value solo_is_active ?'):
+        sceneStatuses = solo.SceneStatuses()
+        if sceneStatuses.current_scene_is_solo_active():
             return True
         elif solo.implicit_selection():
             return True
