@@ -8,6 +8,19 @@ import lxu.command
 import traceback
 import solo
 
+HIDDEN_GROUP_NAME = "solo_hidden"
+
+def create_hidden_group():
+    lx.eval('!!group.create %s std' % HIDDEN_GROUP_NAME)
+    group = hidden_group()
+    return group
+
+def hidden_group():
+    for group in modo.Scene().getGroups():
+        if group.name == HIDDEN_GROUP_NAME:
+            return group
+    return None
+
 class solo_toggle(solo.CommanderClass):
 
     def commander_arguments(self):
@@ -68,8 +81,23 @@ class solo_toggle(solo.CommanderClass):
         if solo_is_active == False:
             try:
                 if lx.eval('user.value solo_hide_items ?'):
-                    lx.eval('hide.unsel')
-
+                    # important to collect unselected items before creating group
+                    items = list()
+                    selItems = list()
+                    for item in modo.Scene().iterItems():
+                        if item.isLocatorSuperType():
+                            if not item.selected:
+                                items.append(item)
+                            else:
+                                selItems.append(item)
+                        
+                    group = create_hidden_group()
+                    group.addItems(items)
+                    group.channel('visible').set('off')
+                    
+                    for item in implicit_selection:
+                        item.select()
+                    
                 if lx.eval('user.value solo_set_reference_center ?'):
                     lx.eval('item.refSystem {%s}' % implicit_selection[-1].id)
 
@@ -80,7 +108,9 @@ class solo_toggle(solo.CommanderClass):
         else:
             try:
                 if lx.eval('user.value solo_hide_items ?'):
-                    lx.eval('unhide')
+                    group = hidden_group()
+                    group.channel('visible').set('on')
+                    modo.Scene().removeItems(group, False)
 
                 if lx.eval('user.value solo_set_reference_center ?'):
                     lx.eval('item.refSystem {}')
