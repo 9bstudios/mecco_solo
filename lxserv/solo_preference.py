@@ -33,9 +33,6 @@ class CommandClass(solo.CommanderClass):
         sceneStatuses = solo.SceneStatuses()
         if sceneStatuses.any_solo_active_scene():
             return False
-        name = self.commander_arg_value(1)
-        if name == "hide_with_group":
-            return lx.eval("user.value solo_hide_items ?") == 1
         return True
 
     def cmd_Query(self, index, vaQuery):
@@ -64,7 +61,7 @@ class CommandClass(solo.CommanderClass):
     def arg_values_list(self):
         name = self.commander_arg_value(1)
         if name == "solo_hide_items":
-            return ['off', 'hide']
+            return ['off', 'hide', 'hide with group']
         return None
 
     def commander_notifiers(self):
