@@ -81,18 +81,21 @@ class solo_toggle(solo.CommanderClass):
         if solo_is_active == False:
             try:
                 if lx.eval('user.value solo_hide_items ?'):
-                    items = list()
-                    for item in modo.Scene().iterItems():
-                        if item.isLocatorSuperType():
-                            if not item in implicit_selection:
-                                items.append(item)
+                    if lx.eval('user.value hide_with_group ?'):
+                        items = list()
+                        for item in modo.Scene().iterItems():
+                            if item.isLocatorSuperType():
+                                if not item in implicit_selection:
+                                    items.append(item)
+                            
+                        group = create_hidden_group()
+                        group.addItems(items)
+                        group.channel('visible').set('off')
                         
-                    group = create_hidden_group()
-                    group.addItems(items)
-                    group.channel('visible').set('off')
-                    
-                    for item in implicit_selection:
-                        item.select()
+                        for item in implicit_selection:
+                            item.select()                        
+                    else:
+                        lx.eval('hide.unsel')
                     
                 if lx.eval('user.value solo_set_reference_center ?'):
                     lx.eval('item.refSystem {%s}' % implicit_selection[-1].id)
@@ -105,8 +108,13 @@ class solo_toggle(solo.CommanderClass):
             try:
                 if lx.eval('user.value solo_hide_items ?'):
                     group = hidden_group()
-                    group.channel('visible').set('on')
-                    modo.Scene().removeItems(group, False)
+                    # It will be wrong to check hide_with_group here since it could be changed after solo activation
+                    # Checking group validity
+                    if group is None:
+                        lx.eval('unhide')
+                    else:
+                        group.channel('visible').set('on')
+                        modo.Scene().removeItems(group, False)
 
                 if lx.eval('user.value solo_set_reference_center ?'):
                     lx.eval('item.refSystem {}')
