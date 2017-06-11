@@ -81,15 +81,11 @@ class solo_toggle(solo.CommanderClass):
         if solo_is_active == False:
             try:
                 if lx.eval('user.value solo_hide_items ?'):
-                    # important to collect unselected items before creating group
                     items = list()
-                    selItems = list()
                     for item in modo.Scene().iterItems():
                         if item.isLocatorSuperType():
-                            if not item.selected:
+                            if not item in implicit_selection:
                                 items.append(item)
-                            else:
-                                selItems.append(item)
                         
                     group = create_hidden_group()
                     group.addItems(items)
