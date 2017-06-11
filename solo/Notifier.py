@@ -6,7 +6,7 @@ class Notifier(lxifc.Notifier):
     masterList = {}
 
     def noti_Name(self):
-        return "tagger.notifier"
+        return "solo.notifier"
 
     def noti_AddClient(self,event):
         self.masterList[event.__peekobj__()] = event

@@ -35,6 +35,9 @@ class SceneStatuses(object):
     
     def __init__(self):
         self.active_scenes = set()
+        
+    def any_solo_active_scene(self):
+        return len(self.active_scenes) != 0
     
     def current_scene_is_solo_active(self):
         scene = lx.object.Scene(lxu.select.SceneSelection().current())

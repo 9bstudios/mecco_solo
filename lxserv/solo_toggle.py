@@ -80,7 +80,7 @@ class solo_toggle(solo.CommanderClass):
 
         if solo_is_active == False:
             try:
-                if lx.eval('user.value solo_hide_items ?'):
+                if lx.eval('user.value solo_hide_items ?') == 1:
                     if lx.eval('user.value hide_with_group ?'):
                         items = list()
                         for item in modo.Scene().iterItems():
@@ -106,7 +106,7 @@ class solo_toggle(solo.CommanderClass):
                 lx.out(traceback.format_exc())
         else:
             try:
-                if lx.eval('user.value solo_hide_items ?'):
+                if lx.eval('user.value solo_hide_items ?') == 1:
                     group = hidden_group()
                     # It will be wrong to check hide_with_group here since it could be changed after solo activation
                     # Checking group validity
