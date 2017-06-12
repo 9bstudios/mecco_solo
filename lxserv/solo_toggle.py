@@ -10,10 +10,12 @@ import solo
 
 HIDDEN_GROUP_NAME = "solo_hidden"
 
+
 def create_hidden_group():
     lx.eval('!!group.create %s std' % HIDDEN_GROUP_NAME)
     group = hidden_group()
     return group
+
 
 def hidden_group():
     for group in modo.Scene().getGroups():
@@ -21,8 +23,8 @@ def hidden_group():
             return group
     return None
 
-class solo_toggle(solo.CommanderClass):
 
+class solo_toggle(solo.CommanderClass):
     def commander_arguments(self):
         return [
             {
@@ -31,7 +33,6 @@ class solo_toggle(solo.CommanderClass):
                 'flags': ['query', 'optional']
             }
         ]
-
 
     def commander_execute(self, msg, flags):
 
@@ -49,7 +50,7 @@ class solo_toggle(solo.CommanderClass):
                 modo.dialogs.alert(
                     lx.eval("query messageservice msgfind ? @mecco_solo_messages@NothingSelectedTitle@"),
                     lx.eval("query messageservice msgfind ? @mecco_solo_messages@NothingSelectedMessage@")
-                    )
+                )
             except:
                 pass
 
@@ -88,16 +89,16 @@ class solo_toggle(solo.CommanderClass):
                             if item.isLocatorSuperType():
                                 if not item in implicit_selection:
                                     items.append(item)
-                            
+
                         group = create_hidden_group()
                         group.addItems(items)
                         group.channel('visible').set('off')
-                        
+
                         for item in implicit_selection:
-                            item.select()                        
+                            item.select()
                     else:
                         lx.eval('hide.unsel')
-                    
+
                 if lx.eval('user.value solo_set_reference_center ?'):
                     lx.eval('item.refSystem {%s}' % implicit_selection[-1].id)
 
@@ -136,7 +137,7 @@ class solo_toggle(solo.CommanderClass):
         notifier = solo.Notifier()
         notifier.Notify(lx.symbol.fCMDNOTIFY_DATATYPE)
 
-    def commander_query(self,index):
+    def commander_query(self, index):
         sceneStatuses = solo.SceneStatuses()
         if index == 0:
             if sceneStatuses.current_scene_is_solo_active():
@@ -144,7 +145,7 @@ class solo_toggle(solo.CommanderClass):
             else:
                 return False
 
-    def basic_Enable(self,msg):
+    def basic_Enable(self, msg):
         sceneStatuses = solo.SceneStatuses()
         if sceneStatuses.current_scene_is_solo_active():
             return True
