@@ -1,10 +1,7 @@
 #!/usr/bin/env python
 
 import lx
-import lxifc
-import lxu
 import modo
-import lxu.command
 import traceback
 import solo
 
