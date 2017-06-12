@@ -13,11 +13,16 @@ class MySceneListener(lxifc.SceneItemListener):
 
     ''' Listener Method Overrides '''
     def sil_SceneCreate(self, scene):
-        pass
+        sceneStatuses = solo.SceneStatuses()
+        sceneStatuses.handle_scene_create(scene)
+        notifier = solo.Notifier()
+        notifier.Notify(lx.symbol.fCMDNOTIFY_DATATYPE)
 
     def sil_SceneDestroy(self, scene):
         sceneStatuses = solo.SceneStatuses()
         sceneStatuses.handle_scene_delete(scene)
+        notifier = solo.Notifier()
+        notifier.Notify(lx.symbol.fCMDNOTIFY_DATATYPE)
 
     def sil_SceneClear(self, scene):
         pass

@@ -4,6 +4,8 @@ import lx, lxu
 from Notifier import Notifier
 from MyOnIdleVisitor import MyOnIdleVisitor
 
+HIDDEN_GROUP_NAME = "solo_hidden"
+
 def queue_idle_visitor(todo_function, *args, **kwargs):
 
     visitor = MyOnIdleVisitor(todo_function, *args, **kwargs)
@@ -52,4 +54,16 @@ class SceneStatuses(object):
             
     def handle_scene_delete(self, scene):
         scene = lx.object.Scene(scene)
-        self.active_scenes.remove(scene.__peekobj__())
+        try:
+            self.active_scenes.remove(scene.__peekobj__())
+        except:
+            pass
+            
+    def handle_scene_create(self, scene):
+        scene = lx.object.Scene(scene)
+        try:
+            group = scene.ItemLookup(HIDDEN_GROUP_NAME)
+            self.active_scenes.add(scene.__peekobj__())
+        except:
+            pass
+            

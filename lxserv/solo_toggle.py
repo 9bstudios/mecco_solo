@@ -8,16 +8,14 @@ import lxu.command
 import traceback
 import solo
 
-HIDDEN_GROUP_NAME = "solo_hidden"
-
 def create_hidden_group():
-    lx.eval('!!group.create %s std' % HIDDEN_GROUP_NAME)
+    lx.eval('!!group.create %s std' % solo.HIDDEN_GROUP_NAME)
     group = hidden_group()
     return group
 
 def hidden_group():
     for group in modo.Scene().getGroups():
-        if group.name == HIDDEN_GROUP_NAME:
+        if group.name == solo.HIDDEN_GROUP_NAME:
             return group
     return None
 

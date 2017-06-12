@@ -30,9 +30,6 @@ class CommandClass(solo.CommanderClass):
         notifier.Notify(lx.symbol.fCMDNOTIFY_DATATYPE)
         
     def basic_Enable(self, msg):
-        sceneStatuses = solo.SceneStatuses()
-        if sceneStatuses.any_solo_active_scene():
-            return False
         return True
 
     def cmd_Query(self, index, vaQuery):
