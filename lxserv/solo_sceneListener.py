@@ -2,6 +2,7 @@
 
 import lx, lxifc, lxu, solo
 
+
 class MySceneListener(lxifc.SceneItemListener):
     def __init__(self):
         self.COM_object = lx.object.Unknown(self)
@@ -12,6 +13,7 @@ class MySceneListener(lxifc.SceneItemListener):
         self.lis_svc.RemoveListener(self.COM_object)
 
     ''' Listener Method Overrides '''
+
     def sil_SceneCreate(self, scene):
         sceneStatuses = solo.SceneStatuses()
         sceneStatuses.handle_scene_create(scene)
@@ -26,5 +28,6 @@ class MySceneListener(lxifc.SceneItemListener):
 
     def sil_SceneClear(self, scene):
         pass
+
 
 MySceneListener()
