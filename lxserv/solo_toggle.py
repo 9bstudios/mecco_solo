@@ -5,6 +5,7 @@ import modo
 import traceback
 import solo
 
+
 def create_hidden_group():
     lx.eval('!!group.create %s std' % solo.HIDDEN_GROUP_NAME)
     group = hidden_group()
