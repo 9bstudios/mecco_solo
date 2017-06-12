@@ -25,11 +25,15 @@
             <ul>
               <li><strong>Map Solo to Key</strong> - A simple shortcut to map <code>solo.toggle</code> to the hotkey of your choosing.</li>
 
-              <li><strong>Hide Unselected Items</strong> - When enabled, unselected items will be hidden when Solo is enabled, and un-hidden when Solo is disabled. This is the default behavior.</li>
+              <li><strong>Hide Unselected Items</strong> -
+                  <ul>
+                      <li><strong>off:</strong> When set to <code>off</code>, no items are hidden during solo.</li>
+                      <li><strong>hide:</strong> When set to <code>hide</code>, unselected items will be hidden using the normal <span class="click">shift + H</span> command (<code>hide.unsel</code>). This is quick and non-invasive, and resets itself when the scene is closed and re-opened. This is the default behavior.</li>
+                      <li><strong>hide with group:</strong> When set to <code>hide with group</code>, unselected items will be added to a Group called <code>solo_hidden</code>, and the group's visibility state will be set to <code>off</code>. With this mode enabled, the items will remain hidden even if the scene is closed and re-opened, and it compatible with external render engines.</li>
+                  </ul>
 
-              <li><strong>Hide Unselected Components</strong> - When enabled, unselected component geometry (i.e. polygons, edges, or vertices) will be hidden when Solo is enabled, and un-hidden when Solo is disabled. This is disabled by default.</li>
-
-              <li><strong>Set Reference Center</strong> - When enabled, the most recently selected item will be set as the MODO reference center when Solo is enabled, and reference center will be reset when Solo is disabled. This is the default behavior.</li>
+              <li><strong>Hide Unselected Components</strong> - When enabled, unselected component geometry (i.e. polygons, edges, or vertices) will be hidden when Solo is enabled, and un-hidden when Solo is disabled. This is disabled by default.
+              <li><strong>Set Reference Center</strong> - When enabled, the most recently selected item will be set as the MODO reference center when Solo is enabled, and reference center will be reset when Solo is disabled. This is enabled by default.</li>
             </ul>
           <div class="tip"><strong>Tip:</strong> To emulate Maya's "isolate selection" command, enable Hide Unselected Items and Hide Unselected Components, and disable Set Reference Center.</div>
         </div>
