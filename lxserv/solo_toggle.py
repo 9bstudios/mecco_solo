@@ -23,7 +23,7 @@ class solo_toggle(solo.CommanderClass):
     def commander_arguments(self):
         return [
             {
-                'name': 'active',
+                'name': 'solo',
                 'datatype': 'boolean',
                 'flags': ['query', 'optional']
             }
